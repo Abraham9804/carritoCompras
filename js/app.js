@@ -7,7 +7,10 @@ let articulosCarrito = []   //Array donde se guardaran los cursos elegidos
 
 eventos()
 
-
+document.addEventListener('DOMContentLoaded', ()=>{
+    articulosCarrito = JSON.parse(localStorage.getItem('articulos'))
+    carritoHTML()
+})
 //Funcion que detecta los eventos
 function eventos(){
     listaCursos.addEventListener('click', functAgregarCurso)
@@ -68,8 +71,10 @@ function leerDatosCurso(curso){ //recibe el curso seleccionado
 
     
     console.log(articulosCarrito)
+    
     carritoHTML()   //Se llama a la funcion carritoHTML
 }
+
 
 function carritoHTML(){
     limpiarHtml()   //Llamado a la funcion limpiarHtml, se eliminan los elementos mostrados en la tabla del carrito y despues se imprime el array actualizado,esto para 
@@ -87,7 +92,7 @@ function carritoHTML(){
         listaCarrito.appendChild(row) //el HTML creado se agrega al body de la tabla del carrito de compras 
     })
 
-    
+    sincronizarStorage()
 }
 
 //Comprueba si el contenedor contiene un elemento y elimina el primero, hace eso hasta que elimina todos pues todos se recorren al primer elemento
@@ -95,4 +100,8 @@ function limpiarHtml(){
     while(listaCarrito.firstChild){     //Comienza un bucle while que se ejecutará mientras listaCarrito tenga al menos un hijo 
         listaCarrito.removeChild(listaCarrito.firstChild) //En cada iteración del bucle se elimina el primer hijo de la tabla y esto se repite hasta que la tabla ya no tenga hijos
     }                                                      //esto para evitar que los elementos anteriores se acumulen cada vez que se actualice el contenido del carrito de compras.
+}
+
+function sincronizarStorage(){
+    localStorage.setItem('articulos',JSON.stringify(articulosCarrito))
 }
